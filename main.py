@@ -1,3 +1,4 @@
+from _typeshed import importlib
 from discord import template
 import discord
 import settings
@@ -7,6 +8,7 @@ from datetime import datetime
 
 bot=discord.Client(intents=discord.Intents.all())
 commands={}
+plugincount=0
 
 #region functions
 def log(msg):
@@ -17,6 +19,7 @@ def log(msg):
 def load_plugins():
     plugin_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), settings.PLUGINS_FOLDER)
     plugin_files = [f for f in os.listdir(plugin_dir) if f.endswith('.plug.py') and f not in settings.DISABLED_PLUGINS]
+    plugincount=len(plugin_files)
     for plugin_ in plugin_files:
         plugin_name = plugin_[:-8]
         spec = importlib.util.spec_from_file_location(plugin_name, os.path.join(plugin_dir, plugin_))
@@ -44,13 +47,17 @@ class PluginErrorCrashOut(Exception):
 @bot.event
 async def on_ready():
     print("ready")
+    print(f"{plugincount} Plugins loaded.")
+    print(f"{len(commands.keys())} Commands loaded.")
 
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
         return
     cmd=message.content.split()[0]
-    if cmd in commands.keys():
+    if cmd=='!plugin' and not settings.DISABLE_PLUGINS_COMMAND:
+        await message.channel.send(f"{plugincount} Plugins & {len(commands.keys())} Commands loaded.")
+    elif cmd in commands.keys():
         res=await commands[cmd].process_cmd(bot, message)
         if res != True:
             print(f"Plugin({commands[cmd].plugin_name} Version {commands[cmd].plugin_version} by {commands[cmd].plugin}) responded a error: {cmd}")
