@@ -21,6 +21,7 @@ this is the document to show how to make pluggable plugins!
     When your plugin is used, main.py will do await your_plugin.process_cmd(bot,message) in your plugin.
     You can see the message info like : message.author, message.channel, message.content, message.guild etc.
     You will return True if the command was processed successfully, or any error messages if it failed! (It will show the error to the user.)
+    If you return False, it will consider as an error but it will not crash the bot. To crash, you need to return String.
     *This is a mandatory function.*
 
 this is all mandatory format for the plugin! you can add any other function or codes u want:3

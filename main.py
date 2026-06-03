@@ -11,10 +11,6 @@ commands={}
 plugincount=0
 
 #region some things
-class DuplicateCommandError(Exception):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(self.message)
 class PluginErrorCrashOut(Exception):
     def __init__(self, message):
         self.message = message
@@ -40,7 +36,7 @@ def load_plugins():
             if k in commands.keys():
                 if settings.SAVE_LOGS:
                     log(f"{temp_module.plugin_name} (Version {temp_module.plugin_version} / Made by {temp_module.plugin_author}) has duplicate command {k} with {commands[k].plugin_name} (Version {commands[k].plugin_version} / Made by {commands[k].plugin_author})")
-                raise DuplicateCommandError(f"{temp_module.plugin_name} (Version {temp_module.plugin_version} / Made by {temp_module.plugin_author}) has duplicate command {k} with {commands[k].plugin_name} (Version {commands[k].plugin_version} / Made by {commands[k].plugin_author})")
+                raise PluginErrorCrashOut(f"{temp_module.plugin_name} (Version {temp_module.plugin_version} / Made by {temp_module.plugin_author}) has duplicate command {k} with {commands[k].plugin_name} (Version {commands[k].plugin_version} / Made by {commands[k].plugin_author})")
             commands[k] = temp_module
 #endregion
 
@@ -63,6 +59,7 @@ async def on_message(message):
             print(f"Plugin({commands[cmd].plugin_name} Version {commands[cmd].plugin_version} by {commands[cmd].plugin}) responded a error: {cmd}")
             if settings.SAVE_LOGS:
                 log(f"Plugin({commands[cmd].plugin_name} Version {commands[cmd].plugin_version} by {commands[cmd].plugin}) responded a error: {cmd}")
-            if settings.CRASH_BOT_AFTER_PLUGIN_ERROR:
+            if settings.CRASH_BOT_AFTER_PLUGIN_ERROR and res != False:
                 raise PluginErrorCrashOut(res)
+
 bot.run(settings.token)
