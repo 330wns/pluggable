@@ -17,8 +17,16 @@ def load_plugins():
             commands[k] = temp_module
     return errors
 
-test=load_plugins()
+while True:
+    print("Choose Options:\n1. Check Plugin Errors(Not Perfect)\n9. Exit")
+    option=input("\nOption>> ")
 
-print(f"{len(pluglist)} Plugins Loaded, {len(commands.keys())} Commands Loaded.")
-print(f"Found total {len(test)} errors.")
-print('\n'.join(test))
+    if option == '1':
+        test=load_plugins()
+        print(f"\033[32m{len(pluglist)} Plugins Found, {len(commands.keys())} Commands Found.")
+        print(f"\033[31mFound total {len(test)} errors.\033[0m")
+        print('\n'.join(test))
+    elif option == '9':
+        break
+    else:
+        print("Unknown Option")

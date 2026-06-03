@@ -11,4 +11,3 @@ async def process_cmd(bot, message):
     if message.content.split()[0] == '!say':
         await message.channel.send(message.content[5:])
         return True
-    return "Error: Command not found"

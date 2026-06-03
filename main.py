@@ -10,6 +10,17 @@ bot=discord.Client(intents=discord.Intents.all())
 commands={}
 plugincount=0
 
+#region some things
+class DuplicateCommandError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+class PluginErrorCrashOut(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+#endregion
+
 #region functions
 def log(msg):
     with open('bot.log','a')as f:
@@ -31,17 +42,6 @@ def load_plugins():
                     log(f"{temp_module.plugin_name} (Version {temp_module.plugin_version} / Made by {temp_module.plugin_author}) has duplicate command {k} with {commands[k].plugin_name} (Version {commands[k].plugin_version} / Made by {commands[k].plugin_author})")
                 raise DuplicateCommandError(f"{temp_module.plugin_name} (Version {temp_module.plugin_version} / Made by {temp_module.plugin_author}) has duplicate command {k} with {commands[k].plugin_name} (Version {commands[k].plugin_version} / Made by {commands[k].plugin_author})")
             commands[k] = temp_module
-#endregion
-
-#region some things
-class DuplicateCommandError(Exception):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(self.message)
-class PluginErrorCrashOut(Exception):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(self.message)
 #endregion
 
 @bot.event

@@ -11,15 +11,21 @@ CUSTOMIZABLE!!
 
 for example:
 you can add cool functions like:
-bot announcing
-giveaways
-and more by other people or YOU!
+* announcements
+* giveaways
+* and more by other people or YOU!
 
 # What is included in main.py(without any plugins)
-1. !plugins (able to disable this in settings.py)
-2. System to add/remove plugins
+* !plugins (able to disable this in settings.py)
+* System to add/remove plugins
 
 This is all. You need to add plugins to get more functions!!
 
 # How do I add plugins?
 1. Its simple! Just put .plug.py file into plugins folder(or the folder name you put in settings.py!)
+
+# How to set up
+1. Get your discord bot token and put it in settings.py
+2. Install discord.py 1.7.3 if not installed
+3. Add plugins if you want
+4. Run main.py
